@@ -13,9 +13,9 @@
       margin: 0;
       min-height: 100vh;
       padding: 24px;
-      background: #fff4b8;
+      background: linear-gradient(135deg, #fff0f5 0%, #ffe6e6 100%);
       color: #4a3f35;
-      font-family: "Segoe UI", Helvetica, sans-serif;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
     .container {
@@ -24,14 +24,39 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 32px;
-      border-radius: 18px;
-      background: #ffffff;
-      box-shadow: 0 10px 30px rgba(100, 80, 30, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: 0 18px 45px rgba(140, 65, 85, 0.16);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
     }
 
     .container.ativo {
       display: block;
       animation: fadeIn 0.25s ease-in-out;
+    }
+
+    .gatinho {
+      width: 250px;
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(255, 105, 180, 0.2);
+      margin-bottom: 20px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     @keyframes fadeIn {
@@ -57,16 +82,57 @@
       font: inherit;
       font-size: 1rem;
       font-weight: 600;
-      transition: filter 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 8px 18px rgba(166, 73, 95, 0.16);
+      transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     button:hover {
-      filter: brightness(0.96);
-      transform: translateY(-1px);
+      filter: brightness(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(166, 73, 95, 0.25);
     }
 
     button:active {
       transform: translateY(0);
+      box-shadow: 0 5px 12px rgba(166, 73, 95, 0.18);
+    }
+
+    .btn-voltar {
+      width: auto;
+      min-height: 40px;
+      margin-bottom: 20px;
+      padding: 9px 14px;
+      color: #8e4d5d;
+      background: rgba(255, 255, 255, 0.55);
+      border: 1px solid rgba(142, 77, 93, 0.16);
+      box-shadow: none;
+      font-size: 0.9rem;
+    }
+
+    .progresso {
+      position: fixed;
+      right: 24px;
+      bottom: 18px;
+      left: 24px;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .progresso span {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(142, 77, 93, 0.2);
+      transition: width 0.25s ease, background 0.25s ease;
+    }
+
+    .progresso span.ativo {
+      width: 24px;
+      border-radius: 8px;
+      background: #d8758a;
     }
 
     .btn-sucesso {
@@ -78,7 +144,13 @@
     }
 
     .btn-neutro {
-      background: #91b9df;
+      background: #f3a6a6;
+    }
+
+    .btn-pulsante {
+      animation: pulse 1.5s infinite;
+      background-color: #ff4757;
+      color: white;
     }
 
     @media (max-width: 480px) {
@@ -89,71 +161,173 @@
       .container {
         padding: 24px;
       }
+
+      .progresso {
+        right: 16px;
+        bottom: 12px;
+        left: 16px;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="etapa1" class="container ativo">
+  <div id="etapa-capa" class="container ativo">
+    <img src="https://media.tenor.com/T0b4E3uSbbkAAAAi/peach-cat.gif" class="gatinho" alt="Gatinho amoroso">
+    <h1>Date com o Lebinho..... 🥺❤️</h1>
+    <p>Tenho uma pergunta muito importante para te fazer...</p>
+    <button class="btn-pulsante" onclick="mudarTela('etapa1')">Abrir o convite 💌</button>
+  </div>
+
+  <div id="etapa1" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
     <h1>Bora sair esse final de semana?</h1>
-    <p>O boyzin da Paraíba vai te mostrar o que é um date de respeito.</p>
-    <button class="btn-sucesso" onclick="mudarTela('etapa2')">SIM!</button>
+    <p>Aceitas ser a princesa mais bem cuidada do mundo neste final de semana? Prometo que este menino da Paraíba sabe tratar uma mulher bem demais...</p>
+    <button class="btn-sucesso" onclick="mudarTela('etapa-vibe')">SIM!</button>
     <button class="btn-alerta" id="btn-nao">Não :(</button>
   </div>
 
-  <div id="etapa2" class="container">
-    <h2>Qual vai ser a vibe?</h2>
-    <button class="btn-neutro" onclick="mudarTela('etapa3-comida')">Comida</button>
-    <button class="btn-neutro" onclick="mudarTela('etapa3-role')">Rolê</button>
-    <button class="btn-neutro" onclick="mudarTela('etapa3-tranquilo')">Tranquilo</button>
+  <div id="etapa-vibe" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Qual é a pegada de hoje?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Pegar um sol/mar 🏖️', 'etapa-praia')">Pegar um sol/mar 🏖️</button>
+    <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Ar condicionado e vitrines 🛍️', 'etapa-shopping')">Ar condicionado e vitrines 🛍️</button>
+    <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Fome de leão 🍽️', 'etapa-comida')">Fome de leão 🍽️</button>
+    <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Rolê alternativo/cultural 🎨', 'etapa-cultural')">Rolê alternativo/cultural 🎨</button>
   </div>
 
-  <div id="etapa3-comida" class="container">
-    <h2>Escolhe o date gastronômico:</h2>
-    <button class="btn-neutro" onclick="finalizar('Cuscuz com Ovo')">Cuscuz com Ovo</button>
-    <button class="btn-neutro" onclick="finalizar('Sushi')">Sushi</button>
+  <div id="etapa-praia" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Qual praia tu prefere?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Beira Mar (mãos dadas e brisa arretada)', 'etapa-bebida')">Beira Mar (mãos dadas e brisa arretada)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Praia do Futuro (caranguejo massa)', 'etapa-bebida')">Praia do Futuro (caranguejo massa)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Porto das Dunas (chiquezinho, visse?)', 'etapa-bebida')">Porto das Dunas (chiquezinho, visse?)</button>
   </div>
 
-  <div id="etapa3-role" class="container">
-    <h2>Escolhe o rolê:</h2>
-    <button class="btn-neutro" onclick="finalizar('Cinema')">Cinema</button>
-    <button class="btn-neutro" onclick="finalizar('Praia')">Praia</button>
+  <div id="etapa-shopping" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Qual shopping a gente vai bater perna?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'RioMar (cinema e chiqueza)', 'etapa-bebida')">RioMar (cinema e chiqueza)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Iguatemi (o clássico gigante)', 'etapa-bebida')">Iguatemi (o clássico gigante)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Shopping Benfica (perto da UFC, raiz)', 'etapa-bebida')">Shopping Benfica (perto da UFC, raiz)</button>
   </div>
 
-  <div id="etapa3-tranquilo" class="container">
-    <h2>Escolhe um date tranquilo:</h2>
-    <button class="btn-neutro" onclick="finalizar('Filme em casa')">Filme em casa</button>
-    <button class="btn-neutro" onclick="finalizar('Piquenique')">Piquenique</button>
+  <div id="etapa-cultural" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Bora pra onde?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Benfica / Gentilândia (Tomar uma e resenhar)', 'etapa-bebida')">Benfica / Gentilândia (Tomar uma e resenhar)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Dragão do Mar (Exposição e barzinho)', 'etapa-bebida')">Dragão do Mar (Exposição e barzinho)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Praça das Flores (Piquenique fofo)', 'etapa-bebida')">Praça das Flores (Piquenique fofo)</button>
+  </div>
+
+  <div id="etapa-comida" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>O que vai encher nosso bucho?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Hambúrguer Artesanal (muito massa) 🍔', 'etapa-bebida')">Hambúrguer Artesanal (muito massa) 🍔</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Sushi (pra se amostrar um tiquinho) 🍣', 'etapa-bebida')">Sushi (pra se amostrar um tiquinho) 🍣</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Pizza (vixe, impossível errar) 🍕', 'etapa-bebida')">Pizza (vixe, impossível errar) 🍕</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Cuscuzão com carne de sol (raiz demais) 💛', 'etapa-bebida')">Cuscuzão com carne de sol (raiz demais) 💛</button>
+  </div>
+
+  <div id="etapa-bebida" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>E pra molhar a palavra, o que tu toma?</h2>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cervejinha gelada (pra resenha) 🍻', 'finalizar')">Cervejinha gelada (pra resenha) 🍻</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Drink bem bonito (arretado) 🍹', 'finalizar')">Drink bem bonito (arretado) 🍹</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Suco ou Refri (sem aperreio) 🥤', 'finalizar')">Suco ou Refri (sem aperreio) 🥤</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cafézinho chique (vixe, que fina) ☕', 'finalizar')">Cafézinho chique (vixe, que fina) ☕</button>
+  </div>
+
+  <div id="progresso" class="progresso" aria-label="Progresso do convite">
+    <span></span><span></span><span></span><span></span>
   </div>
 
   <script>
-    function mudarTela(idTela) {
+    let datePlan = { vibe: '', local: '', bebida: '', extra: '' };
+    let historicoDeTelas = ['etapa-capa'];
+
+    function mudarTela(idTela, registrarHistorico = true) {
       document.querySelectorAll('.container').forEach(function (container) {
         container.classList.remove('ativo');
       });
 
       document.getElementById(idTela).classList.add('ativo');
+      atualizarProgresso(idTela);
+
+      if (registrarHistorico && historicoDeTelas[historicoDeTelas.length - 1] !== idTela) {
+        historicoDeTelas.push(idTela);
+      }
+    }
+
+    function voltarTela() {
+      if (historicoDeTelas.length <= 1) {
+        return;
+      }
+
+      historicoDeTelas.pop();
+      mudarTela(historicoDeTelas[historicoDeTelas.length - 1], false);
+    }
+
+    function atualizarProgresso(idTela) {
+      var progresso = document.querySelectorAll('#progresso span');
+      var etapaAtual = 0;
+
+      if (idTela === 'etapa-vibe') {
+        etapaAtual = 1;
+      } else if (idTela !== 'etapa-capa' && idTela !== 'etapa1') {
+        etapaAtual = idTela === 'etapa-bebida' ? 3 : 2;
+      }
+
+      progresso.forEach(function (ponto, indice) {
+        ponto.classList.toggle('ativo', indice < etapaAtual);
+      });
+    }
+
+    function guardarEscolha(chave, valor, proximaTela) {
+      datePlan[chave] = valor;
+
+      if (proximaTela === 'finalizar') {
+        finalizar();
+        return;
+      }
+
+      mudarTela(proximaTela);
     }
 
     document.getElementById('btn-nao').addEventListener('mouseover', fugir);
     document.getElementById('btn-nao').addEventListener('touchstart', fugir);
 
+    var frasesDoBotaoNao = [
+      'Vixe!',
+      'Oxe, tu não me pega!',
+      'Arreda pra lá!',
+      'Num vai não!',
+      'Tá com a gota, é?'
+    ];
+    var tentativasDoBotaoNao = 0;
+
     function fugir(evento) {
       evento.preventDefault();
       var botao = evento.currentTarget;
       var margem = 16;
-      var larguraDisponivel = window.innerWidth - botao.offsetWidth - margem;
-      var alturaDisponivel = window.innerHeight - botao.offsetHeight - margem;
+      var larguraDisponivel = Math.max(0, window.innerWidth - botao.offsetWidth - margem * 2);
+      var alturaDisponivel = Math.max(0, window.innerHeight - botao.offsetHeight - margem * 2);
+      var escala = Math.max(0.55, 1 - tentativasDoBotaoNao * 0.08);
 
       botao.style.position = 'fixed';
-      botao.style.left = Math.max(margem, Math.random() * larguraDisponivel) + 'px';
-      botao.style.top = Math.max(margem, Math.random() * alturaDisponivel) + 'px';
+      botao.style.left = margem + Math.random() * larguraDisponivel + 'px';
+      botao.style.top = margem + Math.random() * alturaDisponivel + 'px';
+      botao.style.transform = 'scale(' + escala + ')';
+      botao.textContent = frasesDoBotaoNao[Math.floor(Math.random() * frasesDoBotaoNao.length)];
+      tentativasDoBotaoNao += 1;
     }
 
-    function finalizar(escolha) {
-      var mensagem = 'Date confirmado! A escolha foi: ' + escolha;
-      var numeroWhatsApp = '5585999999999'; // Altere este número para o WhatsApp correto.
+    function finalizar() {
+      var mensagem = 'Eita! O Date tá fechado, visse? 🥺❤️\n\n📍 Vibe: ' + datePlan.vibe + '\n🗺️ Local/Comida: ' + datePlan.local + '\n🍹 Pra beber: ' + datePlan.bebida + '\n\nJá tô me arrumando, que horas passo aí?';
+      var numeroWhatsApp = '5583988341235';
       window.location.href = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(mensagem);
     }
+
+    atualizarProgresso('etapa-capa');
   </script>
 </body>
 </html>
