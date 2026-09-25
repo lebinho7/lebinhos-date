@@ -1,0 +1,28 @@
+# Sistema operativo
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Editores e IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Logs e ficheiros temporários
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Dependências e builds, caso sejam adicionados futuramente
+node_modules/
+dist/
+build/
+.cache/

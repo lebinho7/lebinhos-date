@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convite para um date</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      background: #fff4b8;
+      color: #4a3f35;
+      font-family: "Segoe UI", Helvetica, sans-serif;
+    }
+
+    .container {
+      display: none;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 32px;
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 10px 30px rgba(100, 80, 30, 0.14);
+    }
+
+    .container.ativo {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      width: 100%;
+      min-height: 52px;
+      padding: 14px 20px;
+      border: 0;
+      border-radius: 14px;
+      color: #ffffff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: filter 0.2s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      filter: brightness(0.96);
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-sucesso {
+      background: #8acb9b;
+    }
+
+    .btn-alerta {
+      background: #e98d8d;
+    }
+
+    .btn-neutro {
+      background: #91b9df;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
+      .container {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="etapa1" class="container ativo">
+    <h1>Bora sair esse final de semana?</h1>
+    <p>O boyzin da Paraíba vai te mostrar o que é um date de respeito.</p>
+    <button class="btn-sucesso" onclick="mudarTela('etapa2')">SIM!</button>
+    <button class="btn-alerta" id="btn-nao">Não :(</button>
+  </div>
+
+  <div id="etapa2" class="container">
+    <h2>Qual vai ser a vibe?</h2>
+    <button class="btn-neutro" onclick="mudarTela('etapa3-comida')">Comida</button>
+    <button class="btn-neutro" onclick="mudarTela('etapa3-role')">Rolê</button>
+    <button class="btn-neutro" onclick="mudarTela('etapa3-tranquilo')">Tranquilo</button>
+  </div>
+
+  <div id="etapa3-comida" class="container">
+    <h2>Escolhe o date gastronômico:</h2>
+    <button class="btn-neutro" onclick="finalizar('Cuscuz com Ovo')">Cuscuz com Ovo</button>
+    <button class="btn-neutro" onclick="finalizar('Sushi')">Sushi</button>
+  </div>
+
+  <div id="etapa3-role" class="container">
+    <h2>Escolhe o rolê:</h2>
+    <button class="btn-neutro" onclick="finalizar('Cinema')">Cinema</button>
+    <button class="btn-neutro" onclick="finalizar('Praia')">Praia</button>
+  </div>
+
+  <div id="etapa3-tranquilo" class="container">
+    <h2>Escolhe um date tranquilo:</h2>
+    <button class="btn-neutro" onclick="finalizar('Filme em casa')">Filme em casa</button>
+    <button class="btn-neutro" onclick="finalizar('Piquenique')">Piquenique</button>
+  </div>
+
+  <script>
+    function mudarTela(idTela) {
+      document.querySelectorAll('.container').forEach(function (container) {
+        container.classList.remove('ativo');
+      });
+
+      document.getElementById(idTela).classList.add('ativo');
+    }
+
+    document.getElementById('btn-nao').addEventListener('mouseover', fugir);
+    document.getElementById('btn-nao').addEventListener('touchstart', fugir);
+
+    function fugir(evento) {
+      evento.preventDefault();
+      var botao = evento.currentTarget;
+      var margem = 16;
+      var larguraDisponivel = window.innerWidth - botao.offsetWidth - margem;
+      var alturaDisponivel = window.innerHeight - botao.offsetHeight - margem;
+
+      botao.style.position = 'fixed';
+      botao.style.left = Math.max(margem, Math.random() * larguraDisponivel) + 'px';
+      botao.style.top = Math.max(margem, Math.random() * alturaDisponivel) + 'px';
+    }
+
+    function finalizar(escolha) {
+      var mensagem = 'Date confirmado! A escolha foi: ' + escolha;
+      var numeroWhatsApp = '5585999999999'; // Altere este número para o WhatsApp correto.
+      window.location.href = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(mensagem);
+    }
+  </script>
+</body>
+</html>
