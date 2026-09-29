@@ -533,7 +533,7 @@
     }
 
     function enviarWhatsApp() {
-      let mensagem = 'Eita! O Date tá fechado! 🥺❤️\n\n📍 Vibe: ' + datePlan.vibe + '\n🗺️ Local: ' + datePlan.local + '\n🍹 Pra beber: ' + datePlan.bebida + '\n\n📅 Dia: ' + datePlan.data + '\n⏰ Hora: ' + datePlan.hora + '\n🚕 Uber passa aí!\n\n🎟️ Cupom ganho: ' + cupaoSorteado;
+      let mensagem = 'Eita! O Date tá fechado! \u{1F97A}\u2764\uFE0F\n\n\u{1F4CD} Vibe: ' + datePlan.vibe + '\n\u{1F5FA}\uFE0F Local: ' + datePlan.local + '\n\u{1F379} Pra beber: ' + datePlan.bebida + '\n\n\u{1F4C5} Dia: ' + datePlan.data + '\n\u{23F0} Hora: ' + datePlan.hora + '\n\u{1F695} Uber passa aí!\n\n\u{1F39F}\uFE0F Cupom ganho: ' + cupaoSorteado;
       var numeroWhatsApp = '5583988341235';
       window.location.href = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(mensagem);
     }
