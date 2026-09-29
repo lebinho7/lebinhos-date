@@ -16,6 +16,18 @@
       background: linear-gradient(135deg, #fff0f5 0%, #ffe6e6 100%);
       color: #4a3f35;
       font-family: Georgia, "Times New Roman", serif;
+      isolation: isolate;
+    }
+
+    #efeito-ambiente {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
     }
 
     .container {
@@ -30,6 +42,7 @@
       box-shadow: 0 18px 45px rgba(140, 65, 85, 0.16);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
+      text-align: center;
     }
 
     .container.ativo {
@@ -38,11 +51,25 @@
     }
 
     .gatinho {
-      width: 250px;
-      max-width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 10px 20px rgba(255, 105, 180, 0.2);
-      margin-bottom: 20px;
+      max-width: 180px;
+      height: auto;
+      margin: 0 auto 20px auto;
+      display: block;
+      background-color: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+      animation: flutuarGato 3s ease-in-out infinite;
+    }
+
+    .titulo-destaque {
+      background: linear-gradient(45deg, #ff4757, #ff6b81);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+      font-weight: 900;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
     }
 
     @keyframes pulse {
@@ -69,6 +96,35 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+
+    @keyframes flutuarGato {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes flutuar {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .particula {
+      position: absolute;
+      font-size: 24px;
+      animation: flutuar 4s linear infinite;
     }
 
     button {
@@ -153,6 +209,37 @@
       color: white;
     }
 
+    .cupao-box {
+      padding: 20px;
+      border: 2px dashed #ff4757;
+      border-radius: 10px;
+      background: rgba(255, 241, 168, 0.52);
+      box-shadow: 0 8px 18px rgba(166, 73, 95, 0.16);
+      color: #ff4757;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .input-agendamento {
+      width: 80%;
+      padding: 12px;
+      margin: 10px auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.6);
+      font-family: inherit;
+      font-size: 1rem;
+      color: #333;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-agendamento:focus {
+      border-color: #ff4757;
+      box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.18);
+    }
+
     @media (max-width: 480px) {
       body {
         padding: 16px;
@@ -171,9 +258,11 @@
   </style>
 </head>
 <body>
+  <div id="efeito-ambiente"></div>
+
   <div id="etapa-capa" class="container ativo">
-    <img src="https://media.tenor.com/T0b4E3uSbbkAAAAi/peach-cat.gif" class="gatinho" alt="Gatinho amoroso">
-    <h1>Date com o Lebinho..... 🥺❤️</h1>
+    <img src="https://media.tenor.com/HcvPUM3wKzIAAAAi/peach-cat.gif" alt="Gatinho fofo" style="max-width: 160px; height: auto; margin: 0 auto 15px auto; display: block; border: none; background: transparent;">
+    <h1 class="titulo-destaque">Date com o Lebinho..... 🥺❤️</h1>
     <p>Tenho uma pergunta muito importante para te fazer...</p>
     <button class="btn-pulsante" onclick="mudarTela('etapa1')">Abrir o convite 💌</button>
   </div>
@@ -189,6 +278,7 @@
   <div id="etapa-vibe" class="container">
     <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
     <h2>Qual é a pegada de hoje?</h2>
+    <button class="btn-neutro" onclick="modoCaos()" style="border: 2px solid #ff4757; color: #ff4757; font-weight: bold;">Deixa que o Lebinho escolhe tudo (Modo Caos 🎲)</button>
     <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Pegar um sol/mar 🏖️', 'etapa-praia')">Pegar um sol/mar 🏖️</button>
     <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Ar condicionado e vitrines 🛍️', 'etapa-shopping')">Ar condicionado e vitrines 🛍️</button>
     <button class="btn-neutro" onclick="guardarEscolha('vibe', 'Fome de leão 🍽️', 'etapa-comida')">Fome de leão 🍽️</button>
@@ -217,6 +307,10 @@
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Benfica / Gentilândia (Tomar uma e resenhar)', 'etapa-bebida')">Benfica / Gentilândia (Tomar uma e resenhar)</button>
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Dragão do Mar (Exposição e barzinho)', 'etapa-bebida')">Dragão do Mar (Exposição e barzinho)</button>
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Praça das Flores (Piquenique fofo)', 'etapa-bebida')">Praça das Flores (Piquenique fofo)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Cineteatro São Luiz (Cineminha clássico, visse? 🎬)', 'etapa-bebida')">Cineteatro São Luiz (Cineminha clássico, visse? 🎬)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Estação das Artes (Pra tirar umas fotos arretadas 📸)', 'etapa-bebida')">Estação das Artes (Pra tirar umas fotos arretadas 📸)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Parque do Cocó (Trilha leve e piquenique 🌳)', 'etapa-bebida')">Parque do Cocó (Trilha leve e piquenique 🌳)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Passeio Público (Chorinho e feijoada no domingo 🍲)', 'etapa-bebida')">Passeio Público (Chorinho e feijoada no domingo 🍲)</button>
   </div>
 
   <div id="etapa-comida" class="container">
@@ -226,23 +320,54 @@
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Sushi (pra se amostrar um tiquinho) 🍣', 'etapa-bebida')">Sushi (pra se amostrar um tiquinho) 🍣</button>
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Pizza (vixe, impossível errar) 🍕', 'etapa-bebida')">Pizza (vixe, impossível errar) 🍕</button>
     <button class="btn-neutro" onclick="guardarEscolha('local', 'Cuscuzão com carne de sol (raiz demais) 💛', 'etapa-bebida')">Cuscuzão com carne de sol (raiz demais) 💛</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Moleskine Gastrobar (Jantar chique pra impressionar 🍷)', 'etapa-bebida')">Moleskine Gastrobar (Jantar chique pra impressionar 🍷)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Giz Cozinha Boêmia (Nordestino requintado, massa demais 🥘)', 'etapa-bebida')">Giz Cozinha Boêmia (Nordestino requintado, massa demais 🥘)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Cantinho do Frango (O puro suco da nostalgia raiz 🍗)', 'etapa-bebida')">Cantinho do Frango (O puro suco da nostalgia raiz 🍗)</button>
+    <button class="btn-neutro" onclick="guardarEscolha('local', 'Resenha no Benfica (Perto da UFC, bom todo! 🍻)', 'etapa-bebida')">Resenha no Benfica (Perto da UFC, bom todo! 🍻)</button>
   </div>
 
   <div id="etapa-bebida" class="container">
     <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
     <h2>E pra molhar a palavra, o que tu toma?</h2>
-    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cervejinha gelada (pra resenha) 🍻', 'finalizar')">Cervejinha gelada (pra resenha) 🍻</button>
-    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Drink bem bonito (arretado) 🍹', 'finalizar')">Drink bem bonito (arretado) 🍹</button>
-    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Suco ou Refri (sem aperreio) 🥤', 'finalizar')">Suco ou Refri (sem aperreio) 🥤</button>
-    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cafézinho chique (vixe, que fina) ☕', 'finalizar')">Cafézinho chique (vixe, que fina) ☕</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cervejinha gelada (pra resenha) 🍻', 'etapa-agendamento')">Cervejinha gelada (pra resenha) 🍻</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Drink bem bonito (arretado) 🍹', 'etapa-agendamento')">Drink bem bonito (arretado) 🍹</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Suco ou Refri (sem aperreio) 🥤', 'etapa-agendamento')">Suco ou Refri (sem aperreio) 🥤</button>
+    <button class="btn-neutro" onclick="guardarEscolha('bebida', 'Cafézinho chique (vixe, que fina) ☕', 'etapa-agendamento')">Cafézinho chique (vixe, que fina) ☕</button>
+  </div>
+
+  <div id="etapa-agendamento" class="container" style="display: none;">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Pra fechar: Que dia e hora o Uber passa aí pra te buscar? 🚕💨</h2>
+    <input type="date" id="escolha-data" class="input-agendamento">
+    <input type="time" id="escolha-hora" class="input-agendamento">
+    <button class="btn-pulsante" onclick="confirmarAgendamento()" style="margin-top: 15px;">Bloquear na Agenda do Dev 🔒</button>
+  </div>
+
+  <div id="etapa-cupoes" class="container">
+    <button class="btn-voltar" onclick="voltarTela()">⬅️ Voltar</button>
+    <h2>Parabéns! Desbloqueaste um Cupom Exclusivo 🎟️</h2>
+    <div class="cupao-box">
+      <h3 id="texto-cupao"></h3>
+    </div>
+    <button class="btn-pulsante" onclick="enviarWhatsApp()" style="background-color: #25D366; margin-top: 20px;">Reivindicar Cupom & Mandar Zap 💚</button>
   </div>
 
   <div id="progresso" class="progresso" aria-label="Progresso do convite">
     <span></span><span></span><span></span><span></span>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script>
-    let datePlan = { vibe: '', local: '', bebida: '', extra: '' };
+    let contadorFugas = 0;
+    let datePlan = { vibe: '', local: '', bebida: '', data: '', hora: '' };
+    let cupaoSorteado = '';
+    const listaCupoes = [
+      'Vale 1 Açaí com muito leite em pó pago pelo Lebinho (Dev) 🧊',
+      'Direito de dividir o fone de ouvido no Uber tocando a tua playlist 🎧🚕',
+      'Veto absoluto na escolha do filme hoje 🚫🎬',
+      'Vale 1 abraço de urso demorado 🐻',
+      'Sobremesa dupla por conta do Lebinho (Dev) 🍰'
+    ];
     let historicoDeTelas = ['etapa-capa'];
 
     function mudarTela(idTela, registrarHistorico = true) {
@@ -282,8 +407,40 @@
       });
     }
 
+    function gerarParticulas(emoji) {
+      var particula = document.createElement('span');
+      particula.className = 'particula';
+      particula.innerText = emoji;
+      particula.style.left = Math.random() * 100 + '%';
+      particula.style.animationDuration = 4 + Math.random() + 's';
+      particula.style.animationDelay = Math.random() + 's';
+
+      document.getElementById('efeito-ambiente').appendChild(particula);
+      setTimeout(function () {
+        particula.remove();
+      }, 5000);
+    }
+
     function guardarEscolha(chave, valor, proximaTela) {
       datePlan[chave] = valor;
+
+      if (chave === 'vibe') {
+        var efeitoAmbiente = document.getElementById('efeito-ambiente');
+        var vibe = valor.toLowerCase();
+        efeitoAmbiente.innerHTML = '';
+
+        for (var indice = 0; indice < 20; indice += 1) {
+          if (vibe.includes('sol') || vibe.includes('mar')) {
+            gerarParticulas(indice % 2 === 0 ? '☀️' : '🌊');
+          } else if (vibe.includes('fome')) {
+            gerarParticulas(indice % 2 === 0 ? '❤️' : '🤤');
+          } else if (vibe.includes('vitrines') || vibe.includes('shopping')) {
+            gerarParticulas(indice % 2 === 0 ? '✨' : '🛍️');
+          } else if (vibe.includes('alternativo') || vibe.includes('cultural')) {
+            gerarParticulas(indice % 2 === 0 ? '🎵' : '🎨');
+          }
+        }
+      }
 
       if (proximaTela === 'finalizar') {
         finalizar();
@@ -299,30 +456,70 @@
     var frasesDoBotaoNao = [
       'Vixe!',
       'Oxe, tu não me pega!',
-      'Arreda pra lá!',
-      'Num vai não!',
-      'Tá com a gota, é?'
+      'A faculdade de engenharia chora 😭',
+      'O cuscuz vai esfriar 💔',
+      'A Profª Gisele vai descontar ponto se tu não fores!',
+      'Até a IA votou no SIM, pfv! 🤖'
     ];
-    var tentativasDoBotaoNao = 0;
 
     function fugir(evento) {
       evento.preventDefault();
+      contadorFugas += 1;
       var botao = evento.currentTarget;
       var margem = 16;
       var larguraDisponivel = Math.max(0, window.innerWidth - botao.offsetWidth - margem * 2);
       var alturaDisponivel = Math.max(0, window.innerHeight - botao.offsetHeight - margem * 2);
-      var escala = Math.max(0.55, 1 - tentativasDoBotaoNao * 0.08);
+      var indiceFrase = Math.min(contadorFugas - 1, frasesDoBotaoNao.length - 1);
+      var escala = Math.max(0.55, 1 - (contadorFugas - 1) * 0.08);
 
       botao.style.position = 'fixed';
       botao.style.left = margem + Math.random() * larguraDisponivel + 'px';
       botao.style.top = margem + Math.random() * alturaDisponivel + 'px';
       botao.style.transform = 'scale(' + escala + ')';
-      botao.textContent = frasesDoBotaoNao[Math.floor(Math.random() * frasesDoBotaoNao.length)];
-      tentativasDoBotaoNao += 1;
+      botao.innerText = frasesDoBotaoNao[indiceFrase];
+    }
+
+    function modoCaos() {
+      var combos = [
+        { vibe: 'Pegar um sol/mar 🏖️', local: 'Praia do Futuro', bebida: 'Cervejinha gelada 🍻' },
+        { vibe: 'Fome de leão 🍽️', local: 'Giz Cozinha Boêmia', bebida: 'Um Drink bem bonito 🍹' },
+        { vibe: 'Rolê alternativo 🎨', local: 'Estação das Artes', bebida: 'Cafézinho chique ☕' }
+      ];
+      var comboEscolhido = combos[Math.floor(Math.random() * combos.length)];
+
+      datePlan.vibe = comboEscolhido.vibe;
+      datePlan.local = comboEscolhido.local;
+      datePlan.bebida = comboEscolhido.bebida;
+      mudarTela('etapa-agendamento');
+    }
+
+    function confirmarAgendamento() {
+      let dataEscolhida = document.getElementById('escolha-data').value;
+      let horaEscolhida = document.getElementById('escolha-hora').value;
+
+      if (!dataEscolhida || !horaEscolhida) {
+        alert('Oxe, escolhe o dia e a hora pro Lebinho (Dev) programar a rota do Uber, visse! ⏱️🚕');
+        return;
+      }
+
+      datePlan.data = dataEscolhida;
+      datePlan.hora = horaEscolhida;
+      finalizar();
     }
 
     function finalizar() {
-      var mensagem = 'Eita! O Date tá fechado, visse? 🥺❤️\n\n📍 Vibe: ' + datePlan.vibe + '\n🗺️ Local/Comida: ' + datePlan.local + '\n🍹 Pra beber: ' + datePlan.bebida + '\n\nJá tô me arrumando, que horas passo aí?';
+      cupaoSorteado = listaCupoes[Math.floor(Math.random() * listaCupoes.length)];
+      document.getElementById('texto-cupao').innerText = cupaoSorteado;
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+      mudarTela('etapa-cupoes');
+    }
+
+    function enviarWhatsApp() {
+      let mensagem = 'Eita! O Date tá fechado! 🥺❤️\n\n📍 Vibe: ' + datePlan.vibe + '\n🗺️ Local: ' + datePlan.local + '\n🍹 Pra beber: ' + datePlan.bebida + '\n\n📅 Dia: ' + datePlan.data + '\n⏰ Hora: ' + datePlan.hora + '\n🚕 Uber passa aí!\n\n🎟️ Cupom ganho: ' + cupaoSorteado;
       var numeroWhatsApp = '5583988341235';
       window.location.href = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(mensagem);
     }
